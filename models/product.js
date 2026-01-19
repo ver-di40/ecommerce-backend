@@ -1,8 +1,7 @@
-// models/Product.js
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
-  nom: {
+  name: {
     type: String,
     required: true,
     trim: true
@@ -11,31 +10,32 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  prix: {
+  price: {
     type: Number,
     required: true,
     min: 0
   },
-  quantiteStock: {
+  stock: {
     type: Number,
     required: true,
     min: 0,
     default: 0
   },
-  categorie: {
+  category: {
     type: String,
     required: true,
     enum: ['Électronique', 'Vêtements', 'Alimentation', 'Livres', 'Sports', 'Maison', 'Beauté', 'Autre']
   },
-  vendeur: {
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  images: [{
-    type: String
-  }],
-  estDisponible: {
+  imageUrl: {
+    type: String,
+    default: 'https://via.placeholder.com/200'
+  },
+  isAvailable: {
     type: Boolean,
     default: true
   }
@@ -43,6 +43,6 @@ const productSchema = new mongoose.Schema({
   timestamps: true
 });
 
-productSchema.index({ nom: 'text', description: 'text' });
+productSchema.index({ name: 'text', description: 'text' });
 
 module.exports = mongoose.model('Product', productSchema);
