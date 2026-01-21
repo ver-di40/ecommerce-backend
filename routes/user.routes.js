@@ -9,7 +9,8 @@ const {
   deleteUser,
   changeUserRole,
   updateProfile,
-  getSolde // ← NOUVEAU : Ajouté
+  getComptes, // ← NOUVEAU : Ajouté
+  
 } = require('../controllers/user.controller');
 
 const { protect, isAdmin } = require('../middleware/auth');
@@ -38,7 +39,7 @@ router.post('/login', loginUser);
 
 // ============== ROUTES PROTÉGÉES (tout utilisateur authentifié) ==============
 router.put('/profile', protect, updateProfile);
-router.get('/solde', protect, getSolde); // ← NOUVEAU
+router.get('/comptes', protect, getComptes);// ← NOUVEAU
 
 // ============== ROUTES ADMIN UNIQUEMENT ==============
 router.get('/', protect, isAdmin, getUsers);

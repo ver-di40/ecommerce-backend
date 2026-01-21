@@ -359,27 +359,40 @@ const updateProfile = async (req, res) => {
  * Permet à un utilisateur de consulter son solde actuel
  * Utile pour afficher le solde dans l'interface
  */
-const getSolde = async (req, res) => {
+// ==================== RÉCUPÉRER LES COMPTES DE L'UTILISATEUR ====================
+const getComptes = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select('name email role solde');
-
+    const user = await User.findById(req.user._id).select('name email role comptes');
+    
     if (!user) {
       return res.status(404).json({ message: 'Utilisateur non trouvé' });
     }
 
+    // Vérifier que les comptes existent
+    if (!user.comptes) {
+      return res.status(500).json({ 
+        message: 'Erreur: comptes non initialisés',
+        info: 'Exécute le script fix-comptes.js'
+      });
+    }
+
     res.status(200).json({
-      solde: user.solde,
+      comptes: {
+        carte: user.comptes.carte || 0,
+        orangeMoney: user.comptes.orangeMoney || 0,
+        mobileMoney: user.comptes.mobileMoney || 0
+      },
       user: {
         name: user.name,
         email: user.email,
         role: user.role
       }
     });
-
+    
   } catch (error) {
-    console.error('Erreur getSolde:', error);
+    console.error('Erreur getComptes:', error);
     res.status(500).json({ 
-      message: 'Erreur serveur',
+      message: 'Erreur serveur', 
       error: error.message 
     });
   }
@@ -393,5 +406,5 @@ module.exports = {
   deleteUser,
   changeUserRole,
   updateProfile,
-  getSolde // ← NOUVEAU
+  getComptes // ← NOUVEAU
 };

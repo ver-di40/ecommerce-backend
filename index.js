@@ -8,7 +8,8 @@ const connectDB = require('./config/db'); // Fonction de connexion MongoDB
 const userRoutes = require('./routes/user.routes');
 const productRoutes = require('./routes/product.routes');
 const transactionRoutes = require('./routes/transaction.routes'); // ← NOUVEAU
-
+const productSocialRoutes = require('./routes/product-social.routes');
+const adminRoutes = require('./routes/admin.routes');
 // Chargement des variables d'environnement depuis le fichier .env
 dotenv.config();
 
@@ -38,6 +39,10 @@ app.use('/api/products', productRoutes);
 
 // ← NOUVEAU : Toutes les routes commençant par /api/transactions
 app.use('/api/transactions', transactionRoutes);
+
+app.use('/api/admin', adminRoutes);
+
+app.use('/api/products', productSocialRoutes);
 
 // ============== ROUTE DE TEST ==============
 // Pour vérifier que le serveur fonctionne

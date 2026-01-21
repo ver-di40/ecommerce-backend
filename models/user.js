@@ -34,11 +34,23 @@ const userSchema = new mongoose.Schema(
       default: 'client'
     },
     
-    // ============== NOUVEAU : SOLDE (pour les clients et vendeurs) ==============
-    solde: {
-      type: Number,
-      default: 1000, // Chaque utilisateur commence avec 1000 unités
-      min: [0, 'Le solde ne peut pas être négatif']
+    // ============== NOUVEAU : COMPTES MULTIPLES (pour les clients et vendeurs) ==============
+    comptes: {
+      carte: {
+        type: Number,
+        default: 200000, // 200 000 FCFA
+        min: [0, 'Le solde ne peut pas être négatif']
+      },
+      orangeMoney: {
+        type: Number,
+        default: 200000, // 200 000 FCFA
+        min: [0, 'Le solde ne peut pas être négatif']
+      },
+      mobileMoney: {
+        type: Number,
+        default: 200000, // 200 000 FCFA
+        min: [0, 'Le solde ne peut pas être négatif']
+      }
     },
     
     // ============== NOUVEAU : INFORMATIONS ENTREPRISE (pour les sellers) ==============

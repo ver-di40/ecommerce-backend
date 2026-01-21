@@ -6,20 +6,27 @@ const {
   getProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getMyProducts
 } = require('../controllers/product.controller');
 
 const { protect, isSeller, isAdmin } = require('../middleware/auth');
 
-// Routes publiques
+// ============== ROUTES PUBLIQUES ==============
 router.get('/', getProducts);
-router.get('/:id', getProductById);
 
-// Routes protégées - UNIQUEMENT vendeurs (pas admin)
+// ============== ROUTES PROTÉGÉES ==============
+// ⚠️ IMPORTANT : /my-products AVANT /:id !
+router.get('/my-products', protect, getMyProducts); // ← DÉPLACÉ ICI !
+
+// Routes vendeurs
 router.post('/', protect, isSeller, createProduct);
 router.put('/:id', protect, isSeller, updateProduct);
 
-// Admin peut UNIQUEMENT supprimer (pas créer ni modifier)
+// Route avec paramètre dynamique (doit être APRÈS les routes spécifiques)
+router.get('/:id', getProductById);
+
+// Admin peut supprimer
 router.delete('/:id', protect, deleteProduct);
 
 module.exports = router;

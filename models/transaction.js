@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
 /**
- * MODÈLE TRANSACTION (NOUVEAU)
+ * MODÈLE TRANSACTION (MODIFIÉ)
  * 
- * Ce modèle enregistre chaque achat effectué par un client.
- * Il permet de :
- * - Garder l'historique des achats
- * - Suivre les ventes des vendeurs
- * - Avoir une traçabilité complète des transactions
+ * Ajout du champ telephoneLivraison
  */
 
 const transactionSchema = new mongoose.Schema(
@@ -49,6 +45,19 @@ const transactionSchema = new mongoose.Schema(
     // Montant total de la transaction
     montantTotal: {
       type: Number,
+      required: true
+    },
+    
+    // Numéro de téléphone pour la livraison (NOUVEAU)
+    telephoneLivraison: {
+      type: String,
+      required: true
+    },
+    
+    // Mode de paiement utilisé (NOUVEAU)
+    modePaiement: {
+      type: String,
+      enum: ['carte', 'orangeMoney', 'mobileMoney'],
       required: true
     },
     

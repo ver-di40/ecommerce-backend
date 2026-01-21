@@ -168,10 +168,34 @@ const deleteProduct = async (req, res) => {
     });
   }
 };
+
+/// ==================== RÉCUPÉRER MES PRODUITS (VENDEUR) ====================
+const getMyProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ owner: req.user._id })
+      .populate('owner', 'name email entreprise')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      products,
+      total: products.length
+    });
+  } catch (error) {
+    console.error('Erreur getMyProducts:', error);
+    res.status(500).json({ 
+      message: 'Erreur lors de la récupération des produits',
+      error: error.message 
+    });
+  }
+};
+
+// ==================== EXPORTS ====================
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getMyProducts  // ← Maintenant ça marche !
 };
+
